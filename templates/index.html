@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineSelect | Premium Recommendations</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="overlay"></div>
+    
+    <header>
+        <nav>
+            <div class="logo">CINESELECT</div>
+            <div class="tagline">Curated Cinema</div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="search-container">
+            <h1>Discover Your Next Favorite</h1>
+            <p>Enter a film you love, and we'll handle the curation.</p>
+            
+            <form action="/recommend" method="POST" class="search-box">
+                <input type="text" name="movie_input" placeholder="Search movies..." required>
+                <button type="submit">Get Recommendations</button>
+            </form>
+        </section>
+
+        <section class="results-grid">
+
+            {% if recommendations %}
+                {% for movie in recommendations %}
+                <div class="movie-card">
+                    <img src="{{ movie.poster }}" class="poster">
+                    <div class="movie-info">
+                        <h3>{{ movie.title }}</h3>
+                        <span>Recommended</span>
+                    </div>
+                </div>
+                {% endfor %}
+
+            {% else %}
+                <p class="empty-state">No recommendations yet. Try searching for a movie 👀</p>
+            {% endif %}
+
+        </section>
+    </main>
+
+</body>
+</html>

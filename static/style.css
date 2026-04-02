@@ -1,0 +1,160 @@
+:root {
+    --bg-color: #0a0a0a;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --accent: #d4af37;
+    --text-main: #ffffff;
+    --text-dim: #a0a0a0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Background */
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 30%, #1a1a1a 0%, #0a0a0a 100%);
+    z-index: -1;
+}
+
+/* Header */
+header {
+    padding: 2rem 10%;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+}
+
+.tagline {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+/* Search Section */
+.search-container {
+    text-align: center;
+    padding: 100px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.search-container p {
+    color: var(--text-dim);
+}
+
+/* Search Box */
+.search-box {
+    margin-top: 40px;
+    display: flex;
+    gap: 10px;
+    background: var(--card-bg);
+    padding: 10px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 15px 25px;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+}
+
+button {
+    background: var(--accent);
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    background: #f1c40f;
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px;
+    padding: 0 10% 80px;
+}
+
+/* Movie Card */
+.movie-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.movie-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-8px);
+}
+
+/* Poster Image */
+.poster {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+/* Movie Info */
+.movie-info {
+    padding: 15px;
+}
+
+.movie-info h3 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.movie-info span {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+/* Empty State */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin-top: 50px;
+    color: var(--text-dim);
+}
