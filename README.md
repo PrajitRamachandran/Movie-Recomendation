@@ -1,92 +1,164 @@
-# Movie Recommendation System
+# Movie Recommendation System (Content-Based Filtering)
 
 ## Overview
-This project is a content-based movie recommendation web app built with Flask and scikit-learn. A user enters a movie title, and the system suggests similar movies by comparing text features such as genres, keywords, tagline, cast, and director.
+
+This project is a content-based movie recommendation web application built using Flask and scikit-learn. Given a movie title, the system suggests similar movies by analyzing textual features such as genres, keywords, tagline, cast, and director.
+
+The project demonstrates how recommendation systems can be implemented using traditional NLP techniques and similarity metrics without collaborative filtering.
+
+---
+
+## Features
+
+* Content-based movie recommendations
+* TF-IDF vectorization of movie metadata
+* Cosine similarity ranking
+* Fuzzy title matching using difflib
+* Poster fetching using OMDb API
+* In-memory caching for poster optimization
+* Clean web interface using Flask and Jinja2
+
+---
 
 ## Tech Stack
-- Python
-- Flask
-- Pandas for CSV loading and preprocessing
-- NumPy
-- `difflib` for approximate title matching
-- scikit-learn `TfidfVectorizer` for text vectorization
-- scikit-learn `cosine_similarity` for recommendation scoring
-- `requests` for poster fetching
-- OMDb API for movie posters
-- HTML, CSS, and Jinja2 templates
-- Google Fonts
 
-## Tools And Data Used
-- Local dataset file: `movies.csv`
-- External poster source: `http://www.omdbapi.com/`
-- In-memory poster cache using a Python dictionary
+* Backend: Python, Flask
+* Data Processing: Pandas, NumPy
+* NLP & ML: scikit-learn (TfidfVectorizer, cosine_similarity)
+* Matching: difflib
+* API: OMDb API
+* Frontend: HTML, CSS, Jinja2
+* Utilities: requests
 
-## Recommendation Logic
-### 1. Dataset loading
-At import time, the app loads `movies.csv` into a Pandas DataFrame.
+---
 
-### 2. Feature selection
-The recommender uses these text columns:
-- `genres`
-- `keywords`
-- `tagline`
-- `cast`
-- `director`
+## How It Works
 
-Missing values in those columns are replaced with empty strings.
+### 1. Dataset Loading
 
-### 3. Feature engineering
-All selected text fields are concatenated into one combined text string per movie. This creates a single content profile for each title.
+The application loads `movies.csv` into a Pandas DataFrame during initialization.
+
+### 2. Feature Selection
+
+The following columns are used:
+
+* genres
+* keywords
+* tagline
+* cast
+* director
+
+Missing values are replaced with empty strings.
+
+### 3. Feature Engineering
+
+All selected columns are combined into a single text string per movie, forming a unified content representation.
 
 ### 4. Vectorization
-The combined text is transformed into TF-IDF vectors using `TfidfVectorizer()`. This converts each movie into a numerical feature representation based on its descriptive terms.
 
-### 5. Similarity computation
-The code calculates a cosine-similarity matrix once when the module loads. That means recommendations are fast during requests because the expensive matrix computation is already done.
+The combined text is transformed into TF-IDF vectors using `TfidfVectorizer`, converting each movie into a numerical representation.
 
-### 6. Query matching
-When a user submits a movie name:
-- the input title is matched against all movie titles using `difflib.get_close_matches`
-- the closest matching title in the dataset is selected
-- if no close match is found, the app returns an empty result list
+### 5. Similarity Computation
 
-### 7. Result generation
-The app sorts movies by similarity score and returns the top matches. For each result, it also tries to fetch a poster from the OMDb API and stores the poster URL in an in-memory cache to avoid repeated API requests for the same movie.
+Cosine similarity is computed across all movie vectors to create a similarity matrix. This is done once during startup for faster runtime recommendations.
+
+### 6. Query Matching
+
+User input is matched against movie titles using `difflib.get_close_matches`.
+If no close match is found, the system returns no recommendations.
+
+### 7. Recommendation Generation
+
+Movies are ranked based on similarity scores, and the top matches are returned.
+
+For each recommendation:
+
+* Poster is fetched using the OMDb API
+* Poster URLs are cached in memory to reduce repeated API calls
+
+---
 
 ## Project Structure
+
 ```text
-Movie Recomendation/
-  README.md
-  app.py
-  recom.py
-  movies.csv
-  static/
-    style.css
-  templates/
-    index.html
+Movie-Recommendation/
+│── README.md
+│── app.py
+│── recom.py
+│── movies.csv
+│
+├── static/
+│   └── style.css
+│
+└── templates/
+    └── index.html
 ```
 
-## Important Files
-- `app.py`: Flask routes and form handling
-- `recom.py`: dataset loading, TF-IDF pipeline, similarity scoring, poster fetching, and final recommendation output
-- `movies.csv`: source dataset used for content-based matching
-- `templates/index.html`: user interface for entering a movie and showing results
-- `static/style.css`: premium-themed styling for the recommendation page
+---
 
-## How To Run
+## Installation and Setup
+
 ```bash
-cd "Movie Recomendation"
-pip install flask pandas numpy scikit-learn requests
+git clone https://github.com/your-username/movie-recommendation.git
+cd movie-recommendation
+pip install -r requirements.txt
 python app.py
 ```
 
-Then open `http://127.0.0.1:5000`.
+Open in browser:
 
-## Current Behavior Notes
-- Recommendations are generated locally from the CSV dataset; only poster images depend on the internet.
-- Poster URLs are fetched from OMDb using the API key currently stored in `recom.py`.
-- If OMDb does not return a poster or the request fails, the app falls back to a placeholder image.
-- The current ranking logic does not explicitly remove the queried movie from the recommendation list, so the searched movie can appear among the returned results.
+```id="gzk7ep"
+http://127.0.0.1:5000
+```
 
-## Summary
-This project demonstrates a complete content-based recommender workflow: CSV preprocessing, text-feature fusion, TF-IDF vectorization, cosine-similarity ranking, fuzzy title matching, and Flask-based result rendering with live poster fetching.
+---
+
+## Screenshots
+
+### Home Page 
+
+![Home](screenshots/home.png)
+
+### Recommendation Results
+
+![Results](screenshots/results.png)
+
+### Poster Fetching Example
+
+![Posters](screenshots/posters.png)
+
+---
+
+## Limitations
+
+* Recommendations are limited to the local dataset
+* No collaborative filtering or user-based personalization
+* Queried movie may appear in recommendations
+* Depends on OMDb API availability for posters
+
+---
+
+## Future Improvements
+
+* Remove queried movie from recommendations
+* Add collaborative filtering or hybrid recommendation system
+* Improve ranking with weighted features
+* Store poster cache in a persistent database
+* Deploy application for public access
+
+---
+
+## Key Takeaway
+
+This project demonstrates a complete content-based recommendation pipeline, including data preprocessing, feature engineering, TF-IDF vectorization, cosine similarity ranking, fuzzy matching, and web-based result presentation.
+
+---
+
+## Contact
+
+Prajit Ramachandran
+Email: [ramachandranprajit@gmail.com](mailto:ramachandranprajit@gmail.com)
+
+---
+
+If you find this project useful, consider starring the repository.
